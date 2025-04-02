@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            overflow-x: hidden; /* Evita rolagem horizontal */
+        }
+        .header {
+            text-align: center;
+            background-color: #0056b3;
+            color: white;
+            padding: 50px 20px;
+        }
+        .horse-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            padding: 20px;
+            gap: 20px;
+        }
+        .horse-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 250px;
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .horse-card:hover {
+            transform: scale(1.05);
+        }
+        .horse-card img {
+            width: 100%;
+            border-radius: 8px;
+        }
+        .horse-card h3 {
+            margin: 10px 0;
+            font-size: 20px;
+        }
+        .horse-card p {
+            font-size: 16px;
+            color: #555;
+        }
+        .btn-more-info {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .btn-more-info:hover {
+            background-color: #218838;
+        }
+
+        /* Estilo para a nova seção (Fazendas e Pessoas Procurando Cavalos) */
+        .info-section {
+            background-color: #fff;
+            padding: 40px;
+            margin-top: 40px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+        .info-section h2 {
+            text-align: center;
+            color: #0056b3;
+        }
+        .info-section p {
+            font-size: 18px;
+            color: #555;
+        }
+        .farm-list, .search-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .farm-list li, .search-list li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Estilo para o rodapé */
+        footer {
+            background-color: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+
+        /* Efeito de rolagem suave */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Tipos de Cavalos e Seus Preços</h1>
+    </div>
+    
+    <div class="horse-container">
+        <!-- Cavalo 1 -->
+        <div class="horse-card">
+            <img src="data:image/jpeg;base64,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" alt="Cavalo Árabe">
+            <h3>Cavalo Árabe</h3>
+            <p>Preço: R$ 20.000</p>
+            <p>O Cavalo Árabe é conhecido por sua resistência e velocidade.</p>
+            <a href="https://pt.wikipedia.org/wiki/Cavalo_árabe" class="btn-more-info" target="_blank">Saiba mais</a>
+        </div>
+        
+        <!-- Cavalo 2 -->
+        <div class="horse-card">
+            <img src="https://blog.buscarrural.com/wp-content/uploads/elementor/thumbs/quarto-de-milha-p33ydr2za2kajcb10dc6b8zhk2nrkys5sjdhynlugg.jpg" alt="Cavalo Quarto de Milha">
+            <h3>Cavalo Quarto de Milha</h3>
+            <p>Preço: R$ 18.000</p>
+            <p>O Cavalo Quarto de Milha é excelente em corridas curtas e trabalhos no campo.</p>
+            <a href="https://pt.wikipedia.org/wiki/Cavalo_quarto_de_milha" class="btn-more-info" target="_blank">Saiba mais</a>
+        </div>
+
+        <!-- Cavalo 3 -->
+        <div class="horse-card">
+            <img src="https://fazendadaroseta.com.br/wp-content/uploads/2021/01/cavalo-lusitano.jpg" alt="Cavalo Lusitano">
+            <h3>Cavalo Lusitano</h3>
+            <p>Preço: R$ 25.000</p>
+            <p>O Cavalo Lusitano é famoso por sua habilidade em doma e trabalho com touros.</p>
+            <a href="https://pt.wikipedia.org/wiki/Cavalo_lusitano" class="btn-more-info" target="_blank">Saiba mais</a>
+        </div>
+
+        <!-- Cavalo 4 -->
+        <div class="horse-card">
+            <img src="https://www.ruraltectv.com.br/wp-content/uploads/2023/05/CAVALO-ANDALUZ-23.1.jpg" alt="Cavalo Andaluza">
+            <h3>Cavalo Andaluza</h3>
+            <p>Preço: R$ 30.000</p>
+            <p>O Cavalo Andaluza é altamente valorizado em competições de adestramento e equitação.</p>
+            <a href="https://pt.wikipedia.org/wiki/Cavalo_andaluz" class="btn-more-info" target="_blank">Saiba mais</a>
+        </div>
+
+        <!-- Cavalo 5 -->
+        <div class="horse-card">
+            <img src="https://www.mundoecologia.com.br/wp-content/uploads/2019/10/Cavalo-Puro-Sangue-Ingles-1-1.jpg" alt="Cavalo Puro Sangue Inglês">
+            <h3>Cavalo Puro Sangue Inglês</h3>
+            <p>Preço: R$ 50.000</p>
+            <p>O Cavalo Puro Sangue Inglês é famoso por sua velocidade nas corridas.</p>
+            <a href="https://pt.wikipedia.org/wiki/Puro_sangue_ingl%C3%AAs" class="btn-more-info" target="_blank">Saiba mais</a>
+        </div>
+    </div>
+
+    <!-- Nova Seção sobre Fazendas e Pessoas Procurando Cavalos -->
+    <div class="info-section">
+        <h2>Fazendas e Pessoas Procurando Cavalos</h2>
+
+        <p><strong>Fazendas que possuem cavalos para venda:</strong></p>
+        <ul class="farm-list">
+            <li>
+                <strong>Fazenda Cavalos do Sertão</strong><br>
+                Localização: Sertãozinho, SP<br>
+                Especialidade: Cavalos Árabe e Lusitano.<br>
+                <a href="https://www.fazendacavalosdostao.com.br" target="_blank">Visite o site</a>
+            </li>
+            <li>
+                <strong>Rancho do Campo</strong><br>
+                Localização: Uberaba, MG<br>
+                Especialidade: Cavalos Quarto de Milha e Puro Sangue Inglês.<br>
+                <a href="https://www.ranchodocampo.com.br" target="_blank">Visite o site</a>
+            </li>
+            <li>
+                <strong>Fazenda Andaluza</strong><br>
+                Localização: Lages, SC<br>
+                Especialidade: Cavalos Andaluza.<br>
+                <a href="https://www.fazendaandaluza.com.br" target="_blank">Visite o site</a>
+            </li>
+        </ul>
+
+        <p><strong>Pessoas Procurando Cavalos a Preço Acessível:</strong></p>
+        <ul class="search-list">
+            <li>
+                <strong>Maria Silva</strong><br>
+                Localização: São Paulo, SP<br>
+                "Estou procurando um Cavalo Quarto de Milha para competições e treino. Preço até R$ 15.000."
+            </li>
+            <li>
+                <strong>João Pereira</strong><br>
+                Localização: Campinas, SP<br>
+                "Procuro Cavalos de raça Árabe ou Lusitano para trabalho no campo. Orçamento de até R$ 20.000."
+            </li>
+            <li>
+                <strong>Ana Costa</strong><br>
+                Localização: Belo Horizonte, MG<br>
+                "Busco um Cavalo Andaluza ou Lusitano para adestramento. Faixa de preço até R$ 25.000."
+            </li>
+        </ul>
+    </div>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>&copy; 2025 Cavalos e Fazendas - Todos os direitos reservados.</p>
+    </footer>
+    
+</body>
+</html>
